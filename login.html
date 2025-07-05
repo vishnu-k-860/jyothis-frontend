@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+   <title>login form</title>
+
+   <!-- Bootstrap core CSS -->
+   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+   <!-- Font Awesome via CDN -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+   <!-- Additional CSS Files -->
+   <link rel="stylesheet" href="assets/css/fontawesome.css">
+   <link rel="stylesheet" href="assets/css/templatemo-scholar.css">
+   <link rel="stylesheet" href="assets/css/owl.css">
+   <link rel="stylesheet" href="assets/css/animate.css">
+   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+
+   <style>
+     h6 { color: #7a6ad8; }
+     button { color: #7a6ad8; }
+     p { color: white; }
+     a { color: aliceblue; }
+   </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header-area header-sticky">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <a href="index.html" class="logo"><h1>Jyothis</h1></a>
+            <ul class="nav">
+              <li class="scroll-to-section"><a href="index.html" class="active">Home</a></li>
+              <li class="scroll-to-section"><a href="#about">About</a></li>
+              <li class="scroll-to-section"><a href="#courses">Courses</a></li>
+              <li class="scroll-to-section"><a href="#section-testimonials">Blogs</a></li>
+              <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+            </ul>
+            <a class='menu-trigger'><span>Menu</span></a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Section -->
+  <div class="main-banner" id="top">
+    <div class="container">
+      <div class="row">
+
+        <!-- Login Form -->
+        <div class="col-lg-6">
+            <div class="card p-4 shadow rounded-4">
+              <h6 class="text-center mb-4">Login</h6>
+              <div id="msg" class="text-danger text-center mb-3"></div>
+              <form id="loginForm">
+                <div class="mb-3">
+                  <h6><label for="email" class="form-label">Email address</label></h6>
+                  <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="mb-3">
+                  <h6><label for="password" class="form-label">Password</label></h6>
+                  <input type="password" class="form-control" name="password" required>
+                </div>
+                <div class="main-button">
+                  <button type="submit" class="btn btn-outline-dark w-100"><h6>Login</h6></button>
+                </div>
+              </form>
+            </div>
+        </div>
+
+        <!-- Welcome Box -->
+        <div class="col-lg-6 align-self-center">
+          <div class="mt-3 p-4 shadow rounded-4">
+            <h2 class="text-center mb-4">Hello, Welcome!!</h2>
+            <p class="text-center mt-3">Don't have an account? >> <a href="register.html">Register</a></p>
+            <p class="text-center mt-3" style="text-decoration: underline;"><a href="forgot.html">Forgot Password</a></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Scripts -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- Login Script -->
+  <!-- Login Script -->
+<script>
+  $('#loginForm').submit(function(e) {
+    e.preventDefault();
+
+    $.ajax({
+      url: 'http://localhost:5000/api/auth/login',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        email: $('[name="email"]').val(),
+        password: $('[name="password"]').val()
+      }),
+      success: function(res) {
+        // Save token and role before alert
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('role', res.user.role);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: 'You are now logged in!',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showConfirmButton: false,
+          timer: 2000
+          });
+          setTimeout(() => {
+          window.location.href = "index.html";
+          }, 2000);
+        $('#loginForm')[0].reset(); // ✅ only once
+      },
+      error: function(xhr) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: 'Invalid credentials. Please try again.',
+        });
+      }
+    });
+  });
+</script>
+
+
+  <!-- Optional JS -->
+  <script src="assets/js/isotope.min.js"></script>
+  <script src="assets/js/owl-carousel.js"></script>
+  <script src="assets/js/counter.js"></script>
+  <script src="assets/js/custom.js"></script>
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+</html>

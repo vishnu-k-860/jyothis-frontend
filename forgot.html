@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forgot Password</title>
+<!-- Bootstrap core CSS -->
+   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+   <!-- Font Awesome via CDN -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+   <!-- Additional CSS Files -->
+   <link rel="stylesheet" href="assets/css/fontawesome.css">
+   <link rel="stylesheet" href="assets/css/templatemo-scholar.css">
+   <link rel="stylesheet" href="assets/css/owl.css">
+   <link rel="stylesheet" href="assets/css/animate.css">
+   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+
+   <style>
+     
+     button { color: #7a6ad8; }
+     p,h3,h6 { color: white; }
+     a { color: aliceblue; }
+
+     .boxcards{
+        
+        background-color: #7a6ad8;
+     }
+   </style>
+</head>
+<body class="bg-light" id="fgps">
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="boxcards col-md-6 mt-3  p-4 rounded shadow">
+        <h3 class="text-center mb-4">Forgot Password</h3>
+        <form id="forgotForm">
+          <div class="mb-3">
+            <label for="email" class="form-label"><h6> Enter your registered email</h6></label>
+            <input type="email" class="form-control" name="email" required>
+          </div>
+          <button type="submit" class="btn btn-outline-dark w-100">Send Reset Link</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    $('#forgotForm').submit(function (e) {
+      e.preventDefault();
+
+      const email = $('input[name="email"]').val();
+
+      $.ajax({
+        url: "http://localhost:5000/api/auth/forgot-password",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ email }),
+        success: function (res) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Email Sent!',
+            text: res.message || 'Check your inbox for the reset link.'
+          });
+        },
+        error: function (err) {
+          const message = err.responseJSON?.message || "Something went wrong!";
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: message
+          });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

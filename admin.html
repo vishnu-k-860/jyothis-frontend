@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+
+  <!-- ✅ Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+
+  <!-- ✅ Bootstrap & FontAwesome CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/templatemo-scholar.css" />
+  <link rel="stylesheet" href="assets/css/owl.css" />
+  <link rel="stylesheet" href="assets/css/animate.css" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+  
+    <style>
+      h6 { color: #7a6ad8; }
+      button { color: #7a6ad8; }
+      p { color: white; }
+      a {
+        color: aliceblue;
+        text-decoration: underline;
+      }
+      h2,h4{
+        color: antiquewhite;
+      }
+    </style>
+  
+</head>
+<body>
+
+
+  <!--navbar jyothis-->
+<!-- Header -->
+  <header class="header-area header-sticky">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <a href="index.html" class="logo"><h1>Jyothis</h1></a>
+            <ul class="nav">
+              <li><a href="index.html" class="active">Home</a></li>
+              <li><a href="#contact" onclick="logout()">Log Out</a></li>
+            </ul>
+            <a class='menu-trigger'><span>Menu</span></a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Register Section -->
+  <div class="main-banner" id="top">
+    <div class="container">
+      <div class="row">
+        <!-- Welcome Text -->
+        <div class="col-lg-6 align-self-center">
+          <div class="mt-3 p-4 shadow rounded-4">
+            <h2 class="text-center mb-4">Hi Admin!!</h2>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="col-lg-6">
+          <div class="card p-4 shadow rounded-4">
+            <h6 class="text-center mb-4">Add Course</h6>
+            <div id="msg" class="text-danger text-center mb-3"></div>
+            <form id="courseForm" enctype="multipart/form-data">
+              <div class="mb-3">
+                <h6><label class="form-label">Course Title</label></h6>
+                <input type="text" class="form-control" name="title" required />
+              </div>
+              <div class="mb-3">
+                <h6><label  class="form-label">Course Description</label></h6>
+                <textarea class="form-control" name="description" rows="3" required></textarea>
+              </div>
+              <div class="mb-3">
+              <h6><label class="form-label">Course Image</label></h6>
+              <input type="file" class="form-control" name="image" accept="image/*" />
+              </div>
+
+              <div class="main-button">
+                <button type="submit" class="btn btn-outline-dark w-100"><h6>Add </h6></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" >
+         <!-- Course List -->
+        <h4>Available Courses</h4>
+        <ul id="courseList" class="list-group"></ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <!-- jQuery + Bootstrap JS -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Admin Script -->
+
+  <script>
+  const COURSE_API = 'http://localhost:5000/api/courses';
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
+
+  let editingCourseId = null;
+
+  if (role !== 'admin' || !token) {
+    window.location.href = "login.html";
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
+  }
+
+ $('#courseForm').submit(function (e) {
+  e.preventDefault();
+
+  const formData = new FormData(this);
+  const url = editingCourseId ? `${COURSE_API}/${editingCourseId}` : `${COURSE_API}/add`;
+
+  const method = editingCourseId ? 'PUT' : 'POST';
+
+  $.ajax({
+    url: url,
+    method: method,
+    data: formData,
+    headers: {
+      'Authorization': 'Bearer ' + token
+    },
+    contentType: false,
+    processData: false,
+    success: function () {
+      alert(editingCourseId ? "Course updated!" : "Course added!");
+      $('#courseForm')[0].reset();
+      editingCourseId = null;
+      $('button[type="submit"]').html('<h6>Add</h6>'); 
+      loadCourses();
+    },
+    error: function (err) {
+      alert("Error: " + err.responseText);
+    }
+  });
+});
+
+function loadCourses() {
+  $.ajax({
+    url: COURSE_API,
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + token
+    },
+    success: function (courses) {
+      let html = '';
+      courses.forEach(course => {
+        const imageUrl = course.image ? `http://localhost:5000/uploads/${course.image}` : 'assets/images/course-01.jpg'; // default image
+
+        html += `
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <img src="${imageUrl}" alt="course image" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 15px;" />
+              <div>
+                <strong>${course.title}</strong><br/>
+                <small>${course.description}</small>
+              </div>
+            </div>
+            <div>
+              <button class="btn btn-outline-warning me-2" onclick="editCourse('${course._id}', '${course.title}', \`${course.description.replace(/`/g, '\\`')}\`)">Edit</button>
+              <button class="btn btn-outline-danger" onclick="deleteCourse('${course._id}')">Delete</button>
+            </div>
+          </li>
+        `;
+      });
+      $('#courseList').html(html); // Add this to display the courses
+    },
+    error: function () {
+      alert("Failed to load courses.");
+    }
+  });
+}
+  
+
+
+  function deleteCourse(id) {
+    $.ajax({
+      url: COURSE_API + '/' + id,
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + token
+      },
+      success: function () {
+        alert("Course deleted.");
+        loadCourses();
+      },
+      error: function () {
+        alert("Could not delete course.");
+      }
+    });
+  }
+
+  function editCourse(id, title, description) {
+    editingCourseId = id;
+    $('[name="title"]').val(title);
+    $('[name="description"]').val(description);
+    $('button[type="submit"]').html('<h6>Update</h6>');
+  }
+
+  // Load courses on page load
+  loadCourses();
+</script>
+</body>
+</html>

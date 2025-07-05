@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Jyothis it center</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-scholar.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+<style>
+  
+  .latestBlogs {
+  background: url('assets/images/banner-bg.jpg') no-repeat center top;
+  background-size: cover;  /* or "contain" depending on how you want it to fit */
+  position: relative;
+  padding: 100px 0;
+  z-index: 1;
+}
+
+
+.course-card {
+  border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  h5:hover{
+  color: #7a6ad8;
+}
+}
+
+
+
+.course-img {
+  height: 300px;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.bg-purple {
+  background-color: #7a6ad8;
+}
+
+
+h5{
+  color: black;
+}
+.course-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.tag {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  background-color: #e6e0ff;
+  color: #7a6ad8;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  z-index: 2;
+}
+
+.join-circle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #7a6ad8;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 20px 18px;
+  border-bottom-left-radius: 50%;
+  border-top-right-radius: 20px;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.course-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #7a6ad8;
+  margin-top: 8px;
+}
+
+
+.blog-content-box {
+  background-color: #f3f2ff; /* soft lavender background */
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  color:#7a6ad8;
+  font-size: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  line-height: 1.6;
+}
+
+
+
+</style>
+   
+  </head>
+
+<body>
+
+  <!--  Preloader Start  -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  
+
+  <!--  Header Area Start  -->
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!--  Logo  -->
+                    <a href="index.html" class="logo">
+                        <h1>Jyothis</h1>
+                    </a>
+                   
+                    
+                    <!--  Nav bar -->
+                    <ul class="nav">
+                      <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                      <li class="scroll-to-section"><a href="#about">About</a></li>
+                      <li class="scroll-to-section"><a href="#courses">Courses</a></li>
+                      <li class="scroll-to-section"><a href="#section-testimonials">Blogs</a></li>
+                      <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
+                      <li class="scroll-to-section"><a href="login.html" id="loginLink">Login</a></li>
+                      <li class="scroll-to-section" id="dashboardLink" style="display: none;"><a class="nav-link" href="#">Dashboard</a></li>
+                      <li class="scroll-to-section" id="logoutBtn" style="display: none;"><a class="nav-link" href="#" onclick="logout()">Logout</a></li>
+
+
+                  </ul>   
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+ 
+ <!--home part--> 
+
+  <div class="main-banner" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="owl-carousel owl-banner">
+            <div class="item item-1">
+              <div class="header-text">
+                
+                <h2>Welcome to Jyothis</h2>
+                <p>Let's learn something new...</p>
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="#courses">Our Courses</a>
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="item item-2">
+              <div class="header-text">
+                
+                <h2>Grow With Guidance</h2>
+                <p>Faculty-led sessions with hands-on practice..</p>
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="#section-testimonials">Read Blogs</a>
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="item item-3">
+              <div class="header-text">
+                
+                <h2>Join the Future</h2>
+                <p>web design,ms office,tally—we cover it all!.</p>
+                <div class="buttons">
+                  <div class="main-button">
+                    <a href="#about">About Us</a>
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--about us-->
+  
+  <div class="section about-us" id="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 align-self-center">
+          <div class="section-heading">
+            <h6>About Us</h6>
+            <h2>What make us different?</h2>
+            <p>We are a team of passionate educators,creators working together to provide modern,effective and accessible education for everyone..</p>
+            <p>Our platform focuses on delivering high-quality content using the latest technology.Wheather you are a student,working proffessional or lifelong learner-we have got something for you..</p>
+            <div class="main-button">
+              <a href="#contact">Discover More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 offset-lg-1">
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Where shall we begin?
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                Perhaps with a spark—the spark that ignited our vision to transform education into a journey of discovery, growth, and purpose. At <strong>Jyothis</strong>, we believe in nurturing minds, guiding hearts, and shaping futures.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  How do we grow together?
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  At <strong>Jyothis</strong>, growth is not a solo journey — it’s a shared experience. We grow together by learning from one another, supporting each other’s goals, and celebrating every step forward as a community. Our faculty, students, and staff collaborate closely, creating an environment where ideas are valued, talents are nurtured, and challenges become opportunities.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Why is Jyothis the right place for your journey?
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  Because at <strong>Jyothis</strong>, education goes beyond textbooks — it becomes a life-shaping experience. We believe every student's journey is unique, and our role is to guide, support, and empower you every step of the way. With dedicated faculty, modern facilities, and a nurturing environment, we create the space for you to explore your passions, sharpen your skills, and grow with purpose.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  How does Jyothis support your growth?
+                </button>
+              </h2>
+              <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  At <strong>Jyothis</strong>, your growth is our priority — academically, personally, and professionally. We provide a learning environment where curiosity is encouraged, ideas are explored, and individual strengths are recognized. Our experienced faculty members are not just teachers, but mentors who guide you every step of the way.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+<!--courses-->
+
+  <section class="section courses" id="courses" >
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="section-heading">
+            <h6>Our Courses</h6>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row event_box">
+        <div class="col-lg-4 col-md-6 align-self-center mb-30 event_outer col-md-6 design">
+          <div class="events_item">
+            <div class="thumb">
+              <a href="#"><img src="assets/images/course-01.jpg" alt=""></a>
+              <span class="category">Programming</span>
+              <span class="price"><h6>join</h6></span>
+            </div>
+            <div class="down-content">
+              <h4>Programming Languages</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 align-self-center mb-30 event_outer col-md-6  development">
+          <div class="events_item">
+            <div class="thumb">
+              <a href="#"><img src="assets/images/course-02.jpg" alt=""></a>
+              <span class="category">Tally</span>
+              <span class="price"><h6>join</h6></span>
+            </div>
+            <div class="down-content">
+              <h4>Tally course</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 align-self-center mb-30 event_outer col-md-6 design wordpress">
+          <div class="events_item">
+            <div class="thumb">
+              <a href="#"><img src="assets/images/course-03.jpg" alt=""></a>
+              <span class="category">MS Office</span>
+              <span class="price"><h6>join</h6></span>
+            </div>
+            <div class="down-content">
+              <h4>MS Office tools</h4>
+            </div>
+          </div>
+        </div>
+       </div>
+
+        <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="section-heading">
+            <h6>New Courses</h6>
+          </div>
+        </div>
+      </div>
+      <section class="new-courses" id="newCourses">
+      <div class="container">
+      <div class="row" id="courseContainer">
+      <!-- Dynamic courses will be inserted here -->
+       </div>
+      </div>
+      </section> 
+
+
+
+
+
+
+
+
+    </div>
+  </section>
+
+<!-- count part-->
+
+
+  <div class="section fun-facts">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="wrapper">
+            <div class="row">
+              <div class="col-lg-3 col-md-6">
+                <div class="counter">
+                  <h2 class="timer count-title count-number" data-to="200" data-speed="1000"></h2>
+                   <p class="count-text ">Happy Students</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="counter">
+                  <h2 class="timer count-title count-number" data-to="800" data-speed="1000"></h2>
+                  <p class="count-text ">Course Hours</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="counter">
+                  <h2 class="timer count-title count-number" data-to="150" data-speed="1000"></h2>
+                  <p class="count-text ">Employed Students</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="counter end">
+                  <h2 class="timer count-title count-number" data-to="10" data-speed="1000"></h2>
+                  <p class="count-text ">Years Experience</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--blog part-->
+
+  <div class="section testimonials mt-3" id="section-testimonials">
+    <div class="container us-content">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="section-heading">
+            <h6>Latest Blogs</h6>
+            <h2>Stay updated with our educational insights</h2>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          
+              <div class="owl-carousel owl-testimonials" id="latestBlogs">
+              <!-- Blogs will be injected here -->
+              
+           </div> 
+        </div>   
+      </div>
+    </div>
+  </div>
+
+<!--contact us-->  
+
+  <div class="contact-us section" id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6  align-self-center">
+          <div class="section-heading">
+            <h6>Contact Us</h6>
+            <h2>Feel free to contact us anytime</h2>
+            <p>Thank you for choosing Jyothis.Beyond the classroom, we offer workshops, career guidance, hands-on training, and extracurricular opportunities that help you discover your potential..</p>
+            <div class="special-offer">
+              <span class="offer">new course</span>
+              <h6>from: <em>01 july 2025</em></h6>
+              <h4>Join <em>Now</em></h4>
+              <a href="#top"><i class="fa fa-angle-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="contact-us-content">
+            <form id="contact-form">
+              <div class="row">
+                <div class="col-lg-12">
+                  <fieldset>
+                    <input type="name" name="name" id="name" placeholder="Your Name..." autocomplete="on" required>
+                  </fieldset>
+                </div>
+                <div class="col-lg-12">
+                  <fieldset>
+                    <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your E-mail..." required="">
+                  </fieldset>
+                </div>
+                <div class="col-lg-12">
+                  <fieldset>
+                    <textarea name="message" id="message" placeholder="Your Message"></textarea>
+                  </fieldset>
+                </div>
+                <div class="col-lg-12">
+                  <fieldset>
+                 <button type="button" id="form-submit" class="orange-button">Send Message</button>
+                  </fieldset>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--footer-->
+
+  <footer>
+    <div class="container">
+      <div class="col-lg-12">
+        <p>Copyright © 2025 jyothis educational institution</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/js/isotope.min.js"></script>
+  <script src="assets/js/owl-carousel.js"></script>
+  <script src="assets/js/counter.js"></script>
+  <script src="assets/js/custom.js"></script>
+
+  <script>
+  const role = localStorage.getItem('role');
+  const token = localStorage.getItem('token');
+
+  const loginLink = document.getElementById('loginLink');
+  const dashboardLink = document.getElementById('dashboardLink');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  if (token && role) {
+    if (loginLink) loginLink.style.display = 'none';
+
+    if (dashboardLink) {
+      dashboardLink.style.display = 'inline-block';
+      dashboardLink.querySelector('a').textContent = role === 'admin' ? 'Add Course' : 'Add Blog';
+      dashboardLink.querySelector('a').href = role === 'admin' ? 'admin.html' : 'user.html';
+    }
+
+    if (logoutBtn) logoutBtn.style.display = 'inline-block';
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
+  }
+</script>
+
+<script>
+  fetch('http://localhost:5000/api/blogs/all')
+    .then(res => res.json())
+    .then(blogs => {
+      const blogContainer = document.getElementById('latestBlogs');
+      if (!blogContainer) return;
+
+      let html = '';
+      blogs.forEach(blog => {
+        const imageUrl = blog.photo === 'default.jpg'
+          ? 'assets/images/member-01.png'
+          : `http://localhost:5000/uploads/${blog.photo}`;
+
+        html += `
+          <div class="item">
+            <p>${blog.content}</p>
+            <div class="author">
+              <img src="${imageUrl}" alt="Blog image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;" />
+              <span class="category">Our Student</span>
+              <h4>${blog.title}</h4>
+            </div>
+          </div>
+        `;
+      });
+    
+      blogContainer.innerHTML = html;
+    
+      // Initialize Owl Carousel
+     
+  fetch('http://localhost:5000/api/blogs/all')
+    .then(res => res.json())
+    .then(blogs => {
+      const blogContainer = document.getElementById('latestBlogs');
+      if (!blogContainer) return;
+
+      let html = '';
+      blogs.forEach(blog => {
+        const imageUrl = blog.photo === 'default.jpg'
+          ? 'assets/images/member-01.png'
+          : `http://localhost:5000/uploads/${blog.photo}`;
+
+       html += `
+  <div class="item">
+    <div class="blog-content-box">
+      <p style="color:black;">"${blog.content}..</p>
+    </div>
+    <div class="author">
+      <img src="${imageUrl}" alt="Blog image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;" />
+      <span class="category">Our Student</span>
+      <h4>${blog.title}</h4>
+    </div>
+  </div>
+`;
+
+      });
+
+      blogContainer.innerHTML = html;
+
+      // ✅ Initialize after blog HTML is rendered
+      $('#latestBlogs').owlCarousel({
+  loop: true,
+  margin: 30,
+  nav: true,
+  dots: false,
+  autoplay: true,
+  autoplayTimeout: 4000,
+  navText: [
+    '<div class="custom-nav prev"><i class="fa fa-chevron-left"></i></div>',
+    '<div class="custom-nav next"><i class="fa fa-chevron-right"></i></div>'
+  ],
+  responsive: {
+    0: { items: 1 }, // ✅ Show only 1 item at all sizes
+    768: { items: 1 },
+    992: { items: 1 },
+    1200: { items: 1 }
+  }
+});
+
+    })
+    })
+    .catch(err => {
+      console.error("Error loading blogs:", err);
+    });
+
+
+  
+    
+</script>
+
+
+<!--course-->
+
+<script>
+  const COURSE_API = 'http://localhost:5000/api/courses';
+
+  $(document).ready(function () {
+    const token = localStorage.getItem('token'); // get token if available
+
+    let ajaxOptions = {
+      url: COURSE_API,
+      method: 'GET',
+      success: function (courses) {
+        let html = '';
+        courses.forEach(course => {
+          const imageUrl = course.image 
+            ? `http://localhost:5000/uploads/${course.image}`
+            : 'assets/images/course-01.jpg';
+
+          html += `
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="course-card rounded-4 shadow-sm overflow-hidden">
+                <div class="position-relative">
+                  <img src="${imageUrl}" class="w-100 course-img" />
+                  <span class="tag"><h6>New Course</h6></span>
+                  <span class="join-circle"><h3>JOIN</h3></span>
+                </div>
+                <div class="p-4 bg-light text-dark">
+                  <h5 class="fw-bold mb-0">${course.title}</h5>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        $('#courseContainer').html(html);
+      },
+      error: function () {
+        $('#courseContainer').html('<p class="text-danger">Failed to load courses</p>');
+      }
+    };
+
+    // Only add headers if token exists
+    if (token) {
+      ajaxOptions.headers = {
+        'Authorization': 'Bearer ' + token
+      };
+    }
+
+    $.ajax(ajaxOptions);
+  });
+</script>
+
+
+
+
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/owl-carousel.js"></script> <!-- Make sure this is real Owl -->
+
+
+<script>
+  document.getElementById("form-submit").addEventListener("click", function () {
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    if (!name || !email || !message) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const subject = `Message from ${name}`;
+    const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${message}`;
+
+    window.location.href = `mailto:jyothisitdept@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+  });
+</script>
+
+
+  </body>
+</html>
