@@ -533,7 +533,7 @@ h5{
 </script>
 
 <script>
-  fetch('http://localhost:5000/api/blogs/all')
+  fetch('https://jyothis-backend.onrender.com')
     .then(res => res.json())
     .then(blogs => {
       const blogContainer = document.getElementById('latestBlogs');
@@ -543,7 +543,7 @@ h5{
       blogs.forEach(blog => {
         const imageUrl = blog.photo === 'default.jpg'
           ? 'assets/images/member-01.png'
-          : `http://localhost:5000/uploads/${blog.photo}`;
+          : `https://jyothis-backend.onrender.com/uploads/${blog.photo}`;
 
         html += `
           <div class="item">
@@ -561,7 +561,7 @@ h5{
     
       // Initialize Owl Carousel
      
-  fetch('http://localhost:5000/api/blogs/all')
+  fetch('https://jyothis-backend.onrender.com')
     .then(res => res.json())
     .then(blogs => {
       const blogContainer = document.getElementById('latestBlogs');
@@ -571,7 +571,7 @@ h5{
       blogs.forEach(blog => {
         const imageUrl = blog.photo === 'default.jpg'
           ? 'assets/images/member-01.png'
-          : `http://localhost:5000/uploads/${blog.photo}`;
+          : `https://jyothis-backend.onrender.com/uploads/${blog.photo}`;
 
        html += `
   <div class="item">
@@ -625,52 +625,52 @@ h5{
 <!--course-->
 
 <script>
-  const COURSE_API = 'http://localhost:5000/api/courses';
+  const COURSE_API = 'https://jyothis-backend.onrender.com/api/courses';
 
-  $(document).ready(function () {
-    const token = localStorage.getItem('token'); // get token if available
+$(document).ready(function () {
+  const token = localStorage.getItem('token');
 
-    let ajaxOptions = {
-      url: COURSE_API,
-      method: 'GET',
-      success: function (courses) {
-        let html = '';
-        courses.forEach(course => {
-          const imageUrl = course.image 
-            ? `http://localhost:5000/uploads/${course.image}`
-            : 'assets/images/course-01.jpg';
+  let ajaxOptions = {
+    url: COURSE_API,
+    method: 'GET',
+    success: function (courses) {
+      let html = '';
+      courses.forEach(course => {
+        const imageUrl = course.image 
+          ? `https://jyothis-backend.onrender.com/uploads/${course.image}`
+          : 'assets/images/course-01.jpg';
 
-          html += `
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="course-card rounded-4 shadow-sm overflow-hidden">
-                <div class="position-relative">
-                  <img src="${imageUrl}" class="w-100 course-img" />
-                  <span class="tag"><h6>New Course</h6></span>
-                  <span class="join-circle"><h3>JOIN</h3></span>
-                </div>
-                <div class="p-4 bg-light text-dark">
-                  <h5 class="fw-bold mb-0">${course.title}</h5>
-                </div>
+        html += `
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="course-card rounded-4 shadow-sm overflow-hidden">
+              <div class="position-relative">
+                <img src="${imageUrl}" class="w-100 course-img" />
+                <span class="tag"><h6>New Course</h6></span>
+                <span class="join-circle"><h3>JOIN</h3></span>
+              </div>
+              <div class="p-4 bg-light text-dark">
+                <h5 class="fw-bold mb-0">${course.title}</h5>
               </div>
             </div>
-          `;
-        });
-        $('#courseContainer').html(html);
-      },
-      error: function () {
-        $('#courseContainer').html('<p class="text-danger">Failed to load courses</p>');
-      }
-    };
-
-    // Only add headers if token exists
-    if (token) {
-      ajaxOptions.headers = {
-        'Authorization': 'Bearer ' + token
-      };
+          </div>
+        `;
+      });
+      $('#courseContainer').html(html);
+    },
+    error: function () {
+      $('#courseContainer').html('<p class="text-danger">Failed to load courses</p>');
     }
+  };
 
-    $.ajax(ajaxOptions);
-  });
+  if (token) {
+    ajaxOptions.headers = {
+      'Authorization': 'Bearer ' + token
+    };
+  }
+
+  $.ajax(ajaxOptions);
+});
+
 </script>
 
 
