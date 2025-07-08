@@ -89,6 +89,11 @@
                   <option value="admin">Admin</option>
                 </select>
               </div>
+              <div id="adminIdField" style="display: none;" class="mb-3">
+              <h6><label for="adminId">Admin ID</label></h6>
+              <input type="text" class="form-control" id="adminId" name="adminId" placeholder="Enter Admin ID">
+              </div>
+
               <div class="main-button">
                 <button type="submit" class="btn btn-outline-dark w-100"><h6>Register</h6></button>
               </div>
@@ -108,63 +113,85 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+
+<script>
+  const ADMIN_SECRET_ID = "JYOTHISADMIN123456"; // Your fixed Admin ID
+
+  $(document).ready(function () {
+    $('select[name="role"]').on('change', function () {
+      if ($(this).val() === 'admin') {
+        $('#adminIdField').show();
+      } else {
+        $('#adminIdField').hide();
+      }
+    });
+  });
+</script>
+
+
+
   <!-- Registration Script -->
 <script>
   $('#registerForm').submit(function (e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const name = $('input[name="name"]').val();
-    const email = $('input[name="email"]').val();
-    const password = $('input[name="password"]').val();
-    const role = $('select[name="role"]').val();
+  const name = $('input[name="name"]').val();
+  const email = $('input[name="email"]').val();
+  const password = $('input[name="password"]').val();
+  const role = $('select[name="role"]').val();
+  const adminId = $('#adminId').val().trim();
 
+  // ✅ If role is admin, check the Admin ID
+  if (role === 'admin' && adminId !== "JYOTHISADMIN123") {
+    Swal.fire({
+      icon: 'error',
+      title: 'Invalid Admin ID',
+      text: 'Please contact Jyothis to get the correct admin code.'
+    });
+    return;
+  }
 
-    $.ajax({
-      url: "http://localhost:5000/api/auth/register",
-      method: "POST",
-      contentType: "application/json",
-      data: JSON.stringify({ name, email, password, role }),
-      success: function (response) {
-        Swal.fire({
+  // Send request to server
+  $.ajax({
+    url: "http://localhost:5000/api/auth/register",
+    method: "POST",
+    contentType: "application/json",
+    data: JSON.stringify({ name, email, password, role }),
+    success: function (response) {
+      Swal.fire({
         icon: 'success',
         title: 'Registered Successfully!',
         text: 'Redirecting to login...',
         showConfirmButton: false,
         timer: 2000
-        });
-        setTimeout(() => {
+      });
+      setTimeout(() => {
         window.location.href = "login.html";
       }, 2000);
-
-      },
-      error: function (err) {
-        console.log("Full error object:", err);
-        console.log("Status:", err.status);
-        console.log("ResponseText:", err.responseText);
-
-        if (err.status === 409) {
-          Swal.fire({
+    },
+    error: function (err) {
+      if (err.status === 409) {
+        Swal.fire({
           icon: 'info',
           title: 'User already exists',
           text: 'Redirecting to login...',
           showConfirmButton: false,
           timer: 2000
-          });
-          setTimeout(() => {
+        });
+        setTimeout(() => {
           window.location.href = "login.html";
-          }, 2000);
-
-        } else {
-          Swal.fire({
+        }, 2000);
+      } else {
+        Swal.fire({
           icon: 'error',
           title: 'Registration Failed',
-          text: message
+          text: 'Something went wrong. Please try again.'
         });
-
-        }
       }
-    });
+    }
   });
+});
+
 </script>
 
 
