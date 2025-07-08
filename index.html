@@ -532,8 +532,9 @@ h5{
   }
 </script>
 
-<script>
-  fetch('https://jyothis-backend.onrender.com')
+
+  <script>
+  fetch('https://jyothis-backend.onrender.com/api/blogs/all') // ✅ correct endpoint now
     .then(res => res.json())
     .then(blogs => {
       const blogContainer = document.getElementById('latestBlogs');
@@ -547,7 +548,9 @@ h5{
 
         html += `
           <div class="item">
-            <p>${blog.content}</p>
+            <div class="blog-content-box">
+              <p style="color:black;">"${blog.content}..</p>
+            </div>
             <div class="author">
               <img src="${imageUrl}" alt="Blog image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;" />
               <span class="category">Our Student</span>
@@ -556,70 +559,34 @@ h5{
           </div>
         `;
       });
-    
-      blogContainer.innerHTML = html;
-    
-      // Initialize Owl Carousel
-     
-  fetch('https://jyothis-backend.onrender.com')
-    .then(res => res.json())
-    .then(blogs => {
-      const blogContainer = document.getElementById('latestBlogs');
-      if (!blogContainer) return;
-
-      let html = '';
-      blogs.forEach(blog => {
-        const imageUrl = blog.photo === 'default.jpg'
-          ? 'assets/images/member-01.png'
-          : `https://jyothis-backend.onrender.com/uploads/${blog.photo}`;
-
-       html += `
-  <div class="item">
-    <div class="blog-content-box">
-      <p style="color:black;">"${blog.content}..</p>
-    </div>
-    <div class="author">
-      <img src="${imageUrl}" alt="Blog image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;" />
-      <span class="category">Our Student</span>
-      <h4>${blog.title}</h4>
-    </div>
-  </div>
-`;
-
-      });
 
       blogContainer.innerHTML = html;
 
-      // ✅ Initialize after blog HTML is rendered
+      // ✅ Owl Carousel Init
       $('#latestBlogs').owlCarousel({
-  loop: true,
-  margin: 30,
-  nav: true,
-  dots: false,
-  autoplay: true,
-  autoplayTimeout: 4000,
-  navText: [
-    '<div class="custom-nav prev"><i class="fa fa-chevron-left"></i></div>',
-    '<div class="custom-nav next"><i class="fa fa-chevron-right"></i></div>'
-  ],
-  responsive: {
-    0: { items: 1 }, // ✅ Show only 1 item at all sizes
-    768: { items: 1 },
-    992: { items: 1 },
-    1200: { items: 1 }
-  }
-});
-
-    })
+        loop: true,
+        margin: 30,
+        nav: true,
+        dots: false,
+        autoplay: true,
+        autoplayTimeout: 4000,
+        navText: [
+          '<div class="custom-nav prev"><i class="fa fa-chevron-left"></i></div>',
+          '<div class="custom-nav next"><i class="fa fa-chevron-right"></i></div>'
+        ],
+        responsive: {
+          0: { items: 1 },
+          768: { items: 1 },
+          992: { items: 1 },
+          1200: { items: 1 }
+        }
+      });
     })
     .catch(err => {
       console.error("Error loading blogs:", err);
     });
-
-
-  
-    
 </script>
+
 
 
 <!--course-->
