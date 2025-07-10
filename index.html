@@ -507,12 +507,18 @@ h5{
   <script src="assets/js/custom.js"></script>
 
   <script>
+
   const role = localStorage.getItem('role');
   const token = localStorage.getItem('token');
 
   const loginLink = document.getElementById('loginLink');
   const dashboardLink = document.getElementById('dashboardLink');
   const logoutBtn = document.getElementById('logoutBtn');
+
+  const BLOG_API = 'https://jyothis-backend.onrender.com/api/blogs';
+  const IMAGE_PATH = 'https://jyothis-backend.onrender.com/uploads/';
+
+
 
   if (token && role) {
     if (loginLink) loginLink.style.display = 'none';
@@ -549,7 +555,7 @@ h5{
         html += `
           <div class="item">
             <div class="blog-content-box">
-              <p style="color:black;">"${blog.content}..</p>
+              <p style="color:black;">${blog.content}</p>
             </div>
             <div class="author">
               <img src="${imageUrl}" alt="Blog image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;" />
