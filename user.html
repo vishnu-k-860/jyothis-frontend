@@ -180,36 +180,51 @@
       }
     });
 
-    $('#blogForm').submit(function (e) {
-      e.preventDefault();
-      const contentHtml = quill.root.innerHTML.trim();
-      $('#blogContent').val(contentHtml);
+$('#blogForm').submit(function (e) {
+  e.preventDefault();
 
-      const formData = new FormData(this);
-      const url = editingBlogId ? `${BLOG_API}/${editingBlogId}` : `${BLOG_API}/add`;
-      const method = editingBlogId ? 'PUT' : 'POST';
+  const contentHtml = quill.root.innerHTML.trim();
+  $('#blogContent').val(contentHtml);
 
-      $.ajax({
-        url,
-        method,
-        headers: { 'Authorization': 'Bearer ' + token },
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function () {
-          alert(editingBlogId ? "Blog updated!" : "Blog published!");
-          $('#blogForm')[0].reset();
-          quill.setText('');
-          $('#submitBtn').html('<h6>Publish</h6>');
-          $('#photoPreview').hide();
-          editingBlogId = null;
-          loadBlogs();
-        },
-        error: function (err) {
-          alert("Error: " + err.responseText);
-        }
-      });
-    });
+  // ✅ Ensure token is available
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert("You are not logged in. Please login again.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const formData = new FormData(this);
+  const url = editingBlogId ? `${BLOG_API}/${editingBlogId}` : `${BLOG_API}/add`;
+  const method = editingBlogId ? 'PUT' : 'POST';
+
+  console.log("Token used:", token); // ✅ Debug token
+
+  $.ajax({
+    url,
+    method,
+    headers: {
+      'Authorization': 'Bearer ' + token
+    },
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function () {
+      alert(editingBlogId ? "Blog updated!" : "Blog published!");
+      $('#blogForm')[0].reset();
+      quill.setText('');
+      $('#submitBtn').html('<h6>Publish</h6>');
+      $('#photoPreview').hide();
+      editingBlogId = null;
+      loadBlogs();
+    },
+    error: function (err) {
+      console.error("Error during blog submit:", err); // ✅ log error
+      alert("Error: " + err.responseText);
+    }
+  });
+});
+
 
     $('[name="photo"]').on('change', function () {
       const file = this.files[0];
@@ -259,6 +274,7 @@
     }
 
     function editBlog(id, title, content, photoUrl = '') {
+      console.log("Using token:", token);
       $('[name="title"]').val(title);
       quill.root.innerHTML = content;
       $('#submitBtn').html('<h6>Update</h6>');
@@ -271,6 +287,7 @@
     }
 
     function deleteBlog(id) {
+      console.log("Using token:", token);
       $.ajax({
         url: BLOG_API + '/' + id,
         method: 'DELETE',
