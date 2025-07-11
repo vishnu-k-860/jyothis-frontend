@@ -167,7 +167,9 @@ function loadCourses() {
     success: function (courses) {
       let html = '';
       courses.forEach(course => {
-        const imageUrl = course.image ? `https://jyothis-backend.onrender.com/${course.image}` : 'assets/images/course-01.jpg'; // default image
+      const imageUrl = course.image
+      ? `https://jyothis-backend.onrender.com/uploads/${course.image}`
+      : 'assets/images/course-01.jpg';
 
         html += `
           <li class="list-group-item d-flex justify-content-between align-items-center">
