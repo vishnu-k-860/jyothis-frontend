@@ -1711,17 +1711,6 @@ body {
 }
 
 @media (max-width: 992px) {
- /* .header-area .main-nav #search input,
-  .header-area .main-nav #search i {
-    display: none;
-  }
-  .header-area .main-nav .logo h1 {
-    font-size: 34px;
-  }
-  .header-area .main-nav .logo {
-    border-right: none;
-  }*/
-
   .header-area {
     top: 10px;
     
