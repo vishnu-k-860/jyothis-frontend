@@ -243,6 +243,20 @@ function loadCourses() {
     $(".menu-trigger").removeClass("active");
     $(".main-nav ul").slideUp(200);
   });
+
+
+
+
+  $(window).on('resize', function () {
+  if ($(window).width() >= 992) {
+    $('.main-nav .nav').show(); // show nav on large screens
+  } else {
+    if (!$('.menu-trigger').hasClass('active')) {
+      $('.main-nav .nav').hide(); // hide nav if menu is not toggled
+    }
+  }
+});
+
 </script>
 
 </body>
