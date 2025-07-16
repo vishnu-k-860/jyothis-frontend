@@ -1460,15 +1460,15 @@ Contact Style
   left: 0;
   top: 0;
   background-color: #7a6ad8;
-  width: 80px;
+  width: 50px;
   padding: 30px 8px;
   line-height: 25px;
-  height: 120px;
+  height: 50px;
   border-radius: 15px 60px 60px 15px; 
-  display: inline-block;
-  text-align: center;
+  display: flex;
+  align-items: center;
   color: #fff;
-  font-size: 16px;
+  font-size: 25px;
   text-transform: uppercase;
   text-align: left;
 }
@@ -1480,15 +1480,16 @@ Contact Style
 }
 
 .contact-us .special-offer h6 {
-  font-size: 15px;
+  font-size: 12px;
   color: #4a4a4a;
   text-transform: uppercase;
   font-weight: 400;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .contact-us .special-offer h6 em {
   font-style: normal;
+  font-size: 15px;
   color: #7a6ad8;
   font-weight: 600;
 }
@@ -1909,3 +1910,69 @@ body {
     width: 95%;
   }
 }
+
+/*new changes added from here*/
+
+/* === Fix carousel height across all views === */
+.main-banner .owl-carousel .owl-stage,
+.main-banner .owl-carousel .owl-item,
+.main-banner .item {
+  min-height: 500px;
+  width: 1000px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === Center owl-nav arrows below slides in mobile/tablet view === */
+@media (max-width: 992px) {
+  .main-banner .owl-nav {
+    position: relative !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .main-banner .owl-nav .owl-prev i,
+  .main-banner .owl-nav .owl-next i {
+    position: static !important;
+    margin: 0 10px;
+  }
+}
+
+/* === Ensure full width and avoid clipping === */
+.main-banner .owl-carousel,
+.main-banner .owl-stage-outer {
+  width: 100%;
+  overflow: hidden;
+}
+/* Force equal height for all banner slides */
+.owl-banner .item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;         /* full screen height */
+  min-height: 500px;     /* fallback height */
+  box-sizing: border-box;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+/* Consistent height for the image container and text */
+.owl-banner .header-text {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* For smaller screens: prevent extra white space */
+@media (max-width: 768px) {
+  .owl-banner .item {
+    height: auto;
+    padding: 60px 20px;
+  }
+}
+
