@@ -326,7 +326,7 @@ Header Style
 }
 
 .header-area .main-nav .logo h1 {
-  font-size: 36px;
+  font-size: 45px;
   text-transform: uppercase;
   color: #fff;
   font-weight: 600;
@@ -1694,6 +1694,7 @@ body {
     top: 0px;
   }
   .header-area .main-nav .logo h1 {
+    font-size: 30px;
     border-right: none;
   }
   .main-banner .item {
