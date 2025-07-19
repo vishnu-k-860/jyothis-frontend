@@ -167,9 +167,13 @@ function loadCourses() {
     success: function (courses) {
       let html = '';
       courses.forEach(course => {
-      const imageUrl = course.image
+
+      const imageUrl = course.image && course.image.includes('cloudinary.com')
+      ? course.image
+      : course.image
       ? `https://jyothis-backend.onrender.com/uploads/${course.image}`
-      : 'assets/images/course-01.jpg';
+      : 'https://res.cloudinary.com/dltbu7m2e/image/upload/v1752920252/default_course_tdw2si.avif';
+
 
         html += `
           <li class="list-group-item d-flex justify-content-between align-items-center">

@@ -703,9 +703,10 @@ font-size: 25px;
 
       let html = '';
       blogs.forEach(blog => {
-        const imageUrl = blog.photo === 'default.jpg'
-          ? 'assets/images/member-01.png'
-          : `https://jyothis-backend.onrender.com/uploads/${blog.photo}`;
+        const imageUrl = blog.photo.includes('cloudinary.com')
+        ? blog.photo
+        : `https://jyothis-backend.onrender.com/uploads/${blog.photo}`;
+
 
         html += `
           <div class="item">
@@ -764,9 +765,13 @@ $(document).ready(function () {
     success: function (courses) {
       let html = '';
       courses.forEach(course => {
-        const imageUrl = course.image 
-          ? `https://jyothis-backend.onrender.com/uploads/${course.image}`
-          : 'assets/images/course-01.jpg';
+        const imageUrl = 
+        course.image?.startsWith('http') 
+        ? course.image 
+        : course.image 
+        ? `https://jyothis-backend.onrender.com/uploads/${course.image}`
+        : 'https://res.cloudinary.com/dltbu7m2e/image/upload/v1752920252/default_course_tdw2si.avif';
+
 
         html += `
           <div class="col-lg-4 col-md-6 mb-4">
@@ -774,9 +779,9 @@ $(document).ready(function () {
               <div class="position-relative">
                 <img src="${imageUrl}" class="w-100 course-img" />
                 <span class="tag"><h6>New Course</h6></span>
-                <a href="${course.joinLink}" target="_blank" class="join-circle"><h3>JOIN</h3></a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfPvMm3Qh8_KeAp3xVbdkBAw2bkJNqqyWdbJFKhM1vA5Cj_kg/viewform" target="_blank" class="join-circle"><h3>JOIN</h3></a>
                 </div>
-              <div class="p-4 bg-light text-dark">
+                <div class="p-4 bg-light text-dark">
                 <h5 class="fw-bold mb-0">${course.title}</h5>
               </div>
             </div>
