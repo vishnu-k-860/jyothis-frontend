@@ -30,6 +30,19 @@
       h2,h4{
         color: antiquewhite;
       }
+
+      .gallery-thumb {
+        width: 200px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      h4 {
+       color: antiquewhite;
+       margin-top: 20px;
+      }
+
     </style>
   
 </head>
@@ -57,7 +70,7 @@
     </div>
   </header>
 
-  <!-- Register Section -->
+  <!-- course form Section -->
   <div class="main-banner" id="top">
     <div class="container">
       <div class="row">
@@ -68,7 +81,7 @@
           </div>
         </div>
 
-        <!-- Register Form -->
+        <!-- Add course Form -->
         <div class="col-lg-6">
           <div class="card p-4 shadow rounded-4">
             <h6 class="text-center mb-4">Add Course</h6>
@@ -93,13 +106,53 @@
             </form>
           </div>
         </div>
+        <!--add to gallery-->
+        <!-- Gallery Upload -->
+<div class="col-lg-6 mt-5">
+  <div class="card p-4 shadow rounded-4">
+    <h6 class="text-center mb-4">Add to Gallery</h6>
+    <form id="galleryForm" enctype="multipart/form-data">
+      <div class="mb-3">
+        <h6><label class="form-label">Title</label></h6>
+        <input type="text" class="form-control" name="title" required />
       </div>
+      <div class="mb-3">
+        <h6><label class="form-label">Type</label></h6>
+        <select name="type" class="form-select" required>
+          <option value="image">Image</option>
+          <option value="video">Video</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <h6><label class="form-label">Album (optional)</label></h6>
+        <input type="text" class="form-control" name="album" />
+      </div>
+      <div class="mb-3">
+        <h6><label class="form-label">Media File</label></h6>
+        <input type="file" class="form-control" name="media" accept="image/*,video/*" required />
+      </div>
+      <div class="main-button">
+        <button type="submit" class="btn btn-outline-dark w-100"><h6>Upload</h6></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+</div>
+
 
       <div class="row" >
          <!-- Course List -->
         <h4>Available Courses</h4>
         <ul id="courseList" class="list-group"></ul>
       </div>
+      <!-- Gallery List -->
+      <div class="row mt-4">
+      <h4>Gallery Items</h4>
+      <ul id="galleryList" class="list-group"></ul>
+</div>
+
     </div>
   </div>
 
@@ -107,7 +160,6 @@
    
   <!-- jQuery + Bootstrap JS -->
   <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Admin Script -->
 
@@ -178,7 +230,7 @@ function loadCourses() {
         html += `
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
-              <img src="${imageUrl}" alt="course image" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 15px;" />
+              <img src="${imageUrl}"  alt="course image" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 15px;" />
               <div>
                 <strong>${course.title}</strong><br/>
                 <small>${course.description}</small>
@@ -201,7 +253,7 @@ function loadCourses() {
   
 
 
-  function deleteCourse(id) {
+function deleteCourse(id) {
     $.ajax({
       url: COURSE_API + '/' + id,
       method: 'DELETE',
@@ -227,6 +279,91 @@ function loadCourses() {
 
   // Load courses on page load
   loadCourses();
+
+const GALLERY_API = 'https://jyothis-backend.onrender.com/api/gallery';
+
+$('#galleryForm').submit(function (e) {
+  e.preventDefault();
+
+  const formData = new FormData(this);
+
+  $.ajax({
+    url: GALLERY_API,
+    method: 'POST',
+    data: formData,
+    headers: {
+      'Authorization': 'Bearer ' + token
+    },
+    contentType: false,
+    processData: false,
+    success: function () {
+      alert("Media uploaded to gallery!");
+      $('#galleryForm')[0].reset();
+      loadGallery();
+    },
+    error: function (err) {
+      alert("Gallery upload failed: " + err.responseText);
+    }
+  });
+});
+
+function loadGallery() {
+  $.ajax({
+    url: GALLERY_API,
+    method: 'GET',
+    success: function (items) {
+      let html = '<h4 class="text-center mt-5"></h4>';
+      items.forEach(item => {
+        html += `
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+          <div>
+            <strong>${item.title}</strong> (${item.type})<br/>
+            ${
+              item.type === 'image'
+              ? `<img src="${item.url}" class="gallery-thumb" />`
+              : `<video controls class="gallery-thumb"><source src="${item.url}" type="video/mp4" /></video>`
+            }
+            
+          </div>
+          <button class="btn btn-outline-danger" onclick="deleteGallery('${item._id}')">Delete</button>
+        </li>
+        `;
+      });
+      $('#galleryList').html(html);
+    }
+  });
+}
+
+
+function deleteGallery(id) {
+  if (!confirm("Are you sure you want to delete this item?")) return;
+
+  const token = localStorage.getItem("token");
+
+fetch(`${GALLERY_API}/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to delete");
+      return res.json();
+    })
+    .then(() => {
+      alert("Deleted successfully");
+      loadGallery(); // Refresh gallery list
+    })
+    .catch(err => {
+      alert("Error deleting item");
+      console.error(err);
+    });
+}
+
+
+loadGallery();
+
+
 </script>
 
 <!-- ✅ jQuery (needed if you're using custom menu behavior) -->
@@ -260,6 +397,17 @@ function loadCourses() {
     }
   }
 });
+
+
+function toggleLike(icon) {
+  if (icon.classList.contains('fa-regular')) {
+    icon.classList.remove('fa-regular');
+    icon.classList.add('fa-solid', 'text-danger'); // filled red heart
+  } else {
+    icon.classList.remove('fa-solid', 'text-danger');
+    icon.classList.add('fa-regular'); // outline
+  }
+}
 
 </script>
 

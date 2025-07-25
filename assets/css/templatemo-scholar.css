@@ -1,30 +1,3 @@
-/* 
-
-TemplateMo 586 Scholar
-
-https://templatemo.com/tm-586-scholar
-
-*/
-
-/* ---------------------------------------------
-Table of contents
-------------------------------------------------
-01. font & reset css
-02. reset
-03. global styles
-04. header
-05. banner
-06. features
-07. testimonials
-08. contact
-09. footer
-
---------------------------------------------- */
-/* 
----------------------------------------------
-font & reset css
---------------------------------------------- 
-*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
 /* 
 ---------------------------------------------
@@ -691,8 +664,12 @@ Banner Style
   background-position: center center;
   background-size: cover;
   border-radius: 25px;
-  padding: 100px 100px;
-  margin-left: 130px;
+  height: 500px; /* Set fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 30px;
+  text-align: center;
 }
 
 .main-banner .item span.category {
@@ -717,12 +694,16 @@ Banner Style
 
 .main-banner .item p {
   color: #fff;
-  width: 65%;
+  display: flex;
+  
 }
 
 .main-banner .item .buttons {
   display: flex;
-  margin-top: 50px;
+  margin-top: 60px;
+  justify-content: flex-start; /* align to the left */
+  width: 100%;
+  margin-top: 20px;
 }
 
 .main-banner .item .buttons .main-button {
@@ -1977,3 +1958,333 @@ body {
   }
 }
 
+.header-text {
+  background: rgba(0, 0, 0, 0.4); /* semi-transparent black background */
+  padding: 30px;
+  border-radius: 15px;
+  height: 60%;
+  max-width: 600px;
+  text-align: center;       /* 🔹 Center-align text */
+  margin: 0 auto;  
+}
+
+@media (max-width: 768px) {
+  .header-text {
+    padding: 15px;
+    max-width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .main-banner .item {
+    font-size: 16px;
+    height: 400px;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-banner .item {
+    height: 300px;
+    padding: 0 15px;
+  }
+}
+
+.header-text h2, .header-text p {
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+
+/* Force single-line heading in desktop view */
+@media (min-width: 992px) {
+  .main-banner .item h2 {
+    white-space: nowrap;        /* Prevents wrapping */
+    font-size: 45px;            /* Larger text */
+    line-height: 1.2;           /* More compact line height */
+    width: auto !important;     /* Prevents inherited width from restricting */
+  }
+
+  .main-banner .item p {
+    font-size: 20px;            /* Increase paragraph size */
+    line-height: 1.6;
+    max-width: 600px;           /* Optional: to limit how long the line stretches */
+  }
+}
+
+
+/*slide styles*/
+
+.header-text {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 500px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.header-text h2 {
+  color: #fff;
+  font-size: 56px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.header-text p {
+  color: #fff;
+  font-size: 20px;
+  margin-top: 15px;
+  text-align: end;   
+  line-height: 1.6;
+  width: 100%;
+}
+
+/* new changes*/
+@media (min-width: 1025px) {
+  .main-banner .item .header-text p {
+    text-align: center;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .main-banner .item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  .main-banner .item .header-text {
+    padding: 0 15px;
+    width: 100%;
+  }
+
+  .main-banner .item .header-text h2 {
+    font-size: 24px;
+  }
+
+  .main-banner .item .header-text p {
+    font-size: 16px;
+
+  }
+
+  .main-banner .item .buttons {
+    justify-content: center; /* Optional: change to flex-start for left-aligned */
+    width: 100%;
+  }
+
+  .main-banner .item .buttons .main-button {
+    margin: 0 auto; /* center on mobile */
+  }
+
+  .owl-carousel .item {
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .main-banner .item {
+    min-height: 90vh; /* Reduce overall slide height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .main-banner .item .header-text {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Optional semi-transparent bg */
+    padding: 20px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .main-banner .item .header-text h2 {
+    font-size: 15px;
+    word-break: break-word;
+  }
+
+  .main-banner .item .buttons {
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+  }
+
+  .main-banner .item .buttons .main-button {
+    margin: 0 auto;
+  }
+}
+
+/* ✅ Only for desktop and tablets: move button to bottom-left */
+@media (min-width: 769px) {
+  .main-banner .item {
+    position: relative; /* required to anchor .buttons absolutely inside */
+  }
+
+  .main-banner .item .buttons {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    margin-top: 0 !important;
+  }
+}
+/* ✅ Make sure all content fits inside the shadow background */
+.main-banner .item .header-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 30px 20px;
+  border-radius: 15px;
+  width: 90%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ✅ Style heading and paragraph inside properly */
+.main-banner .item .header-text h2 {
+  margin-bottom: 15px;
+  font-size: 48px;
+  color: #fff;
+}
+
+.main-banner .item .header-text p {
+  font-size: 18px;
+  margin: 0 0 15px;
+  color: #fff;
+}
+
+/* ✅ Buttons below text */
+.main-banner .item .buttons {
+  margin-top: 10px;
+}
+
+/* ✅ Mobile-specific tweaks */
+@media (max-width: 768px) {
+  .main-banner .item {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .main-banner .item .header-text h2 {
+    font-size: 22px;
+  }
+
+  .main-banner .item .header-text p {
+    font-size: 16px;
+  }
+
+  .main-banner .item .header-text {
+    padding: 20px;
+  }
+}
+
+
+
+
+
+
+/*may be finaly*/
+
+.main-banner .item .header-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 30px 20px;
+  border-radius: 16px;
+  max-width: 800px;
+  margin: auto;
+  height: auto;
+  min-height: 300px;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+
+.main-banner .item .header-text .header-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.main-banner .item .header-text h2,
+.main-banner .item .header-text p {
+  color: #fff;
+  margin-bottom: 12px;
+  word-break: break-word;
+}
+
+.main-banner .item .header-text p {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-banner .item .buttons {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+@media (max-width: 768px) {
+  .main-banner .item .header-text {
+    width: 90%;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.4); /* dark transparent background */
+    border-radius: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: auto;
+    word-break: break-word;
+  }
+
+  .main-banner .item .header-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .main-banner .item .header-text h2 {
+    font-size: 16px;
+    line-height: 1.4;
+    margin: 0 0 10px 0;
+    text-align: center;
+  }
+
+  .main-banner .item .header-text p {
+    font-size: 14px;
+    margin: 0;
+    text-align: center;
+  }
+
+  .main-banner .item .buttons {
+    margin-top: 20px;
+    position: static;
+    text-align: center;
+  }
+}

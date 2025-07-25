@@ -224,15 +224,28 @@ font-size: 25px;
   }
 }
 
+.loader-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
 
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #7a6ad8;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 0.8s linear infinite;
+}
 
-
-
-
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
-   
-  </head>
-
+</head>
 <body>
 
   <!--  Preloader Start  -->
@@ -265,6 +278,7 @@ font-size: 25px;
                       <li class="scroll-to-section"><a href="#about">About</a></li>
                       <li class="scroll-to-section"><a href="#courses">Courses</a></li>
                       <li class="scroll-to-section"><a href="#section-testimonials">Blogs</a></li>
+                      <li class="scroll-to-section"><a href="gallery.html">Gallery</a></li>
                       <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
                       <li class="scroll-to-section"><a href="login.html" id="loginLink">Login</a></li>
                       <li class="scroll-to-section" id="dashboardLink" style="display: none;"><a  href="#">Dashboard</a></li>
@@ -287,46 +301,48 @@ font-size: 25px;
       <div class="row">
         <div class="col-lg-12">
           <div class="owl-carousel owl-banner">
-            <div class="item item-1">
-              <div class="header-text">
-                
-                <h2>Welcome to Jyothis</h2>
-                <p>Let's learn something new...</p>
-                <div class="buttons">
-                  <div class="main-button">
-                    <a href="#courses">Our Courses</a>
-                  </div>
-                 
-                </div>
-              </div>
-            </div>
-            
-            <div class="item item-2">
-              <div class="header-text">
-                
-                <h2>Grow With Guidance</h2>
-                <p>Faculty-led sessions with hands-on practice..</p>
-                <div class="buttons">
-                  <div class="main-button">
-                    <a href="#section-testimonials">Read Blogs</a>
-                  </div>
-                 
-                </div>
-              </div>
-            </div>
-            <div class="item item-3">
-              <div class="header-text">
-                
-                <h2>Your career journey begins here..</h2>
-                <p>Explore Tally, MS Office, web design, and more...</p>
-                <div class="buttons">
-                  <div class="main-button">
-                    <a href="#about">About Us</a>
-                  </div>
-                 
-                </div>
-              </div>
-            </div>
+           <div class="item item-1">
+  <div class="header-text">
+    <div class="header-content">
+      <h2>Welcome to Jyothis</h2>
+      <p>Let's learn something new...</p>
+    </div>
+    <div class="buttons">
+      <div class="main-button">
+        <a href="#courses">Our Courses</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="item item-2">
+  <div class="header-text">
+    <div class="header-content">
+      <h2>Grow With Guidance</h2>
+      <p>Faculty-led sessions with hands-on practice..</p>
+    </div>
+    <div class="buttons">
+      <div class="main-button">
+        <a href="#section-testimonials">Read Blogs</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="item item-3">
+  <div class="header-text">
+    <div class="header-content">
+      <h2>Your career journey begins here</h2>
+      <p>Explore Tally, MS Office, web design, and more...</p>
+    </div>
+    <div class="buttons">
+      <div class="main-button">
+        <a href="#about">About Us</a>
+      </div>
+    </div>
+  </div>
+</div>
+
           </div>
         </div>
       </div>
@@ -545,6 +561,8 @@ font-size: 25px;
     </div>
   </div>
 
+
+
   <!-- Contact Us -->
 <div class="contact-us section" id="contact">
   <div class="container">
@@ -573,6 +591,14 @@ font-size: 25px;
   <p class="phone">
     <a style="color: #7a6ad8;" href="tel:+91 7736000407">7736000407</a><br><br>
     <a style="color: #7a6ad8;" href="tel:+91 9388968972">9388968972</a>
+  </p>
+  <p class="icon1 d-flex  gap-3" style="font-size: 25px; color: #7a6ad8;">
+    <a href="https://wa.me/917736000407" target="_blank" style="color: inherit;">
+    <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <i class="fa-brands fa-facebook"></i>
+    <i class="fa-brands fa-linkedin"></i>
+    <i class="fa-brands fa-instagram"></i>
   </p>
 </div>
 
@@ -643,7 +669,8 @@ font-size: 25px;
 
 <!--footer-->
 
-  <footer>
+  </div>
+<footer>
     <div class="container">
       <div class="col-lg-12">
         <p>Copyright © 2025 jyothis IT lab</p>
@@ -680,7 +707,7 @@ font-size: 25px;
 
     if (dashboardLink) {
       dashboardLink.style.display = 'inline-block';
-      dashboardLink.querySelector('a').textContent = role === 'admin' ? 'Add Course' : 'Add Blog';
+      dashboardLink.querySelector('a').textContent = role === 'admin' ? 'Dashboard' : 'Add Blog';
       dashboardLink.querySelector('a').href = role === 'admin' ? 'admin.html' : 'user.html';
     }
 
@@ -833,7 +860,16 @@ $(document).ready(function () {
 </script>
 
 
-  </body>
+  
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(() => {
+      document.querySelectorAll('.loader-wrapper').forEach(e => e.style.display = 'none');
+      document.querySelectorAll('.real-content').forEach(e => e.style.display = 'block');
+    }, 800);
+  });
+</script>
+</body>
 </html>
 
 
