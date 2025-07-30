@@ -34,14 +34,55 @@
       .gallery-thumb {
         width: 200px;
         height: 140px;
-        object-fit: cover;
         border-radius: 8px;
+        display: flex;
+        align-items: flex-start;
       }
 
       h4 {
        color: antiquewhite;
        margin-top: 20px;
       }
+      
+      .swiper-button-next, .swiper-button-prev {
+  color: #6c63ff;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+ 
+}
+
+.swiper-button-prev {
+  left: 200px;
+}
+
+.swiper-button-next {
+  right: 820px;
+}
+
+@media (max-width: 768px) {
+  .swiper-button-prev {
+    left: 5px;
+  }
+
+  .swiper-button-next {
+    right: 5px;
+  }
+}
+
+/* Hide prev/next buttons unless hovered (desktop only) */
+#galleryList .swiper {
+  max-width: 220px;
+  margin: 0;
+  position: relative;
+}
+
+#galleryList .swiper-button-next,
+#galleryList .swiper-button-prev {
+  display: none !important;
+}
+
 
     </style>
   
@@ -121,6 +162,7 @@
         <select name="type" class="form-select" required>
           <option value="image">Image</option>
           <option value="video">Video</option>
+          <option value="album">Album</option>
         </select>
       </div>
       <div class="mb-3">
@@ -129,7 +171,7 @@
       </div>
       <div class="mb-3">
         <h6><label class="form-label">Media File</label></h6>
-        <input type="file" class="form-control" name="media" accept="image/*,video/*" required />
+        <input type="file" class="form-control" name="media" accept="image/*,video/*" multiple required />
       </div>
       <div class="main-button">
         <button type="submit" class="btn btn-outline-dark w-100"><h6>Upload</h6></button>
@@ -285,7 +327,23 @@ const GALLERY_API = 'https://jyothis-backend.onrender.com/api/gallery';
 $('#galleryForm').submit(function (e) {
   e.preventDefault();
 
-  const formData = new FormData(this);
+  const formData = new FormData();
+  const title = $('#galleryForm [name="title"]').val();
+  const album = $('#galleryForm [name="album"]').val();
+  const files = $('#galleryForm [name="media"]')[0].files;
+  let type = $('#galleryForm [name="type"]').val();
+
+  if (files.length > 1 && type === 'image') {
+    type = 'album';
+  }
+
+  formData.append("title", title.trim() || "Untitled");
+  formData.append("type", type);
+  if (album) formData.append("album", album);
+
+  for (let i = 0; i < files.length; i++) {
+    formData.append("media", files[i]);
+  }
 
   $.ajax({
     url: GALLERY_API,
@@ -297,42 +355,92 @@ $('#galleryForm').submit(function (e) {
     contentType: false,
     processData: false,
     success: function () {
-      alert("Media uploaded to gallery!");
+      alert("Media uploaded to gallery!"); 
       $('#galleryForm')[0].reset();
       loadGallery();
     },
     error: function (err) {
       alert("Gallery upload failed: " + err.responseText);
+      console.log("Upload debug:", err);
     }
   });
 });
+
+
 
 function loadGallery() {
   $.ajax({
     url: GALLERY_API,
     method: 'GET',
     success: function (items) {
-      let html = '<h4 class="text-center mt-5"></h4>';
-      items.forEach(item => {
-        html += `
-        <li class="list-group-item d-flex justify-content-between align-items-start">
+      let html = '';
+      items.forEach((item, index) => {
+        html += `<li class="list-group-item">`;
+
+        if (item.type === 'album') {
+          html += `
           <div>
-            <strong>${item.title}</strong> (${item.type})<br/>
-            ${
-              item.type === 'image'
-              ? `<img src="${item.url}" class="gallery-thumb" />`
-              : `<video controls class="gallery-thumb"><source src="${item.url}" type="video/mp4" /></video>`
-            }
-            
+           <strong>${item.title && item.title.trim() ? item.title : 'Untitled'}</strong> 
+           <span class="text-muted">(${item.type})</span>
           </div>
-          <button class="btn btn-outline-danger" onclick="deleteGallery('${item._id}')">Delete</button>
-        </li>
-        `;
+
+          <div class="d-flex align-items-center">
+             <div class="swiper mySwiper-${index} album-admin-preview" data-images='${JSON.stringify(item.images)}'>
+                <div class="swiper-wrapper">
+                  ${item.images.map(url => `
+                    <div class="swiper-slide">
+                      <img src="${url}" class="gallery-thumb" />
+                    </div>`).join('')}
+                </div>
+                <div class="swiper-button-prev swiper-button-prev-${index}"></div>
+                <div class="swiper-button-next swiper-button-next-${index}"></div>
+              </div>
+              <div class="ms-auto">
+                <button class="btn btn-outline-danger" onclick="deleteGallery('${item._id}')">Delete</button>
+              </div>
+            </div>
+          `;
+      } else {
+  const safeTitle = item.title && item.title.trim() ? item.title : 'Untitled';
+
+  html += `
+    <div class="mb-2">
+      <strong>${safeTitle}</strong>
+      <span class="text-muted">(${item.type})</span>
+    </div>
+    <div>
+      ${item.type === 'image'
+        ? `<img src="${item.url}" class="gallery-thumb" />`
+        : `<video controls class="gallery-thumb"><source src="${item.url}" type="video/mp4" /></video>`}
+    </div>
+    <div class="d-flex justify-content-end mt-2">
+      <button class="btn btn-outline-danger" onclick="deleteGallery('${item._id}')">Delete</button>
+    </div>
+  `;
+}
+
+
+        html += `</li>`;
       });
+
       $('#galleryList').html(html);
+
+      items.forEach((item, index) => {
+        if (item.type === 'album') {
+          new Swiper(`.mySwiper-${index}`, {
+            navigation: {
+              nextEl: `.swiper-button-next-${index}`,
+              prevEl: `.swiper-button-prev-${index}`
+            },
+            loop: true,
+            spaceBetween: 10
+          });
+        }
+      });
     }
   });
 }
+
 
 
 function deleteGallery(id) {
@@ -409,6 +517,22 @@ function toggleLike(icon) {
   }
 }
 
+</script>
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script>
+$(document).on('click', '.album-admin-preview', function () {
+  const images = JSON.parse($(this).attr('data-images'));
+  const slides = images.map(img => `<img src="${img}" style="max-width:90%;margin:20px auto;display:block;border-radius:10px;" />`).join("");
+
+  const viewer = `
+    <div id="adminAlbumModal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000c;z-index:9999;overflow:auto;padding:40px;text-align:center;">
+      ${slides}
+      <span onclick="$('#adminAlbumModal').remove();" style="position:fixed;top:15px;right:25px;font-size:35px;color:white;cursor:pointer;">✕</span>
+    </div>
+  `;
+
+  $('body').append(viewer);
+});
 </script>
 
 </body>

@@ -3,14 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <title>Gallery</title>
 
-  <!-- Bootstrap & FontAwesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-
-  <!-- Additional CSS -->
   <link rel="stylesheet" href="assets/css/fontawesome.css" />
   <link rel="stylesheet" href="assets/css/templatemo-scholar.css" />
   <link rel="stylesheet" href="assets/css/owl.css" />
@@ -18,7 +15,12 @@
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 
   <style>
-    h6 { color: #7a6ad8; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff9f9;
+    }
+
+    h6 { color: #ffffff; }
     button { color: #7a6ad8; }
     p { color: white; }
     a { color: aliceblue; }
@@ -28,6 +30,7 @@
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
       padding: 30px;
+      background-color: white;
     }
 
     .gallery-item {
@@ -47,76 +50,199 @@
       color:white;
       font-weight: 700;
     }
-.title-like-row {
+
+    .title-like-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .gallery-title-text {
+      margin: 0;
+      font-size: 16px;
+      color: white;
+      font-weight: 500;
+    }
+
+    .gallery-item img,
+    .gallery-item video {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .like-btn {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #aaa;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .like-btn.liked {
+      color: red;
+      transform: scale(1.3);
+      animation: pop 0.3s ease;
+    }
+
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.4); }
+      100% { transform: scale(1.3); }
+    }
+
+    .loader-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+    }
+
+    .preloader-inner {
+      text-align: center;
+    }
+
+    .preloader-inner .dot,
+    .preloader-inner .dots span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 5px;
+      background-color: #7a6ad8;
+      border-radius: 50%;
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+
+    .preloader-inner .dots span:nth-child(2) { animation-delay: 0.2s; }
+    .preloader-inner .dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1.0); }
+    }
+
+    .album-label {
+      background: rgba(133, 131, 131, 0.6);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: white;
+    }
+
+    .album-preview {
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Swiper Modal */
+    #swiperModal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .swiper-container {
+      width: 90vw;
+      max-width: 900px;
+      height: 80vh;
+      position: relative;
+    }
+
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: white;
+      font-size: 30px;
+    }
+
+    .swiper-button-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 32px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 10001;
+    }
+
+    .swiper-container {
+  overflow: hidden;
+}
+
+.swiper-wrapper {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
 }
 
-.gallery-title-text {
-  margin: 0;
-  font-size: 16px;
-  color: white;
-  font-weight: 500;
-}
-
-.gallery-item img,
-.gallery-item video {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.like-btn {
-  background: none;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  color: #aaa;
-  transition: all 0.3s ease;
-  outline: none;
-}
-
-.like-btn.liked {
-  color: red;
-  transform: scale(1.3);
-  animation: pop 0.3s ease;
-}
-
-@keyframes pop {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.4); }
-  100% { transform: scale(1.3); }
-}
-
-
-
-
-
-  
-.loader-wrapper {
+.swiper-slide {
+  width: 100% !important;
+  flex-shrink: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
-  min-height: 300px;
+  align-items: center;
+}
+/* Make sure Swiper container is full width */
+.swiper-container {
+  width: 100vw;
+  max-width: none;
+  height: 80vh;
+  position: relative;
 }
 
-.loader {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #7a6ad8;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 0.8s linear infinite;
+/* Buttons pushed to edges */
+.swiper-button-next,
+.swiper-button-prev {
+  color: white;
+  font-size: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10000;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.swiper-button-prev {
+  left: 10px;
 }
-</style>
+
+.swiper-button-next {
+  right: 10px;
+}
+
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+  }
+}
+
+
+
+  </style>
 </head>
 
 <body>
@@ -151,13 +277,24 @@
   <!-- Gallery Section -->
   <section class="gallery-section section" id="gallery">
     <div class="container">
-      <div class="gallery-container" id="gallery-items">
-        <!-- Dynamic gallery items will be loaded here -->
+      <div class="loader-wrapper" id="galleryLoader">
+        <div class="preloader-inner">
+          <span class="dot"></span>
+          <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-container real-content" id="gallery-items" style="display: none;">
+        <!-- Dynamic gallery items -->
       </div>
     </div>
   </section>
 
-  <!-- JS Scripts -->
+  <!-- Scripts -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
   <script src="assets/js/isotope.min.js"></script>
@@ -165,26 +302,37 @@
   <script src="assets/js/counter.js"></script>
   <script src="assets/js/custom.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
   <script>
-    // 🖼️ Fetch and render gallery items
     $(document).ready(function () {
       $.get("https://jyothis-backend.onrender.com/api/gallery", function (data) {
+        $("#galleryLoader").hide();
+        $("#gallery-items").show();
         let container = $("#gallery-items");
+
         data.forEach(item => {
           let mediaHtml = '';
+
           if (item.type === "image") {
-            mediaHtml = `<img src="${item.url}" class="img-fluid rounded mb-2" alt="${item.title}" />`;
+            mediaHtml = `<img src="${item.url}" class="img-fluid rounded mb-2 gallery-click" alt="${item.title}" />`;
           } else if (item.type === "video") {
             mediaHtml = `<video controls class="img-fluid rounded mb-2"><source src="${item.url}" type="video/mp4">Your browser does not support video.</video>`;
+          } else if (item.type === "album" && Array.isArray(item.images)) {
+            mediaHtml = `
+              <div class="album-preview" data-images='${JSON.stringify(item.images)}'>
+                <img src="${item.images[0]}" class="img-fluid rounded mb-2" alt="${item.title}" />
+                <div class="album-label">Album (${item.images.length})</div>
+              </div>
+            `;
           }
 
           const card = `
             <div class="gallery-item">
               ${mediaHtml}
               <div class="title-like-row">
-               <h6 class="gallery-title-text">${item.title}</h6>
-               <button class="like-btn">&#9825;</button>
+                <h6 class="gallery-title-text">${item.title}</h6>
+                <button class="like-btn">&#9825;</button>
               </div>
             </div>
           `;
@@ -192,21 +340,73 @@
         });
       });
 
-      // ❤️ Like button toggle
+      // Like button toggle
       $(document).on('click', '.like-btn', function () {
         $(this).toggleClass('liked');
         $(this).html($(this).hasClass('liked') ? '&#10084;' : '&#9825;');
       });
+
+      // Fullscreen image preview
+      $(document).on("click", ".gallery-click", function () {
+        const src = $(this).attr("src");
+        const modal = `
+          <div class="fullscreen-img" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000d;z-index:9999;display:flex;align-items:center;justify-content:center;">
+            <img src="${src}" style="max-width:75%;max-height:100%;" />
+            <span style="position:absolute;top:20px;right:30px;font-size:40px;color:white;cursor:pointer;" onclick="$(this).parent().remove()">✕</span>
+          </div>
+        `;
+        $("body").append(modal);
+      });
+
+      // Swiper album slideshow
+      $(document).on('click', '.album-preview', function () {
+        const images = JSON.parse($(this).attr('data-images'));
+        const slides = images.map(img => `
+          <div class="swiper-slide">
+            <img src="${img}" />
+          </div>
+        `).join("");
+
+        const swiperModal = `
+          <div id="swiperModal">
+            <div class="swiper-container">
+              <div class="swiper-wrapper">${slides}</div>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+              <button class="swiper-button-close" onclick="$('#swiperModal').remove();$('body').css('overflow','auto');">✕</button>
+            </div>
+          </div>
+        `;
+
+        $("body").append(swiperModal);
+        $("body").css("overflow", "hidden");
+
+        new Swiper('.swiper-container', {
+  loop: true,
+  slidesPerView: 1,
+  spaceBetween: 0,
+  centeredSlides: false,
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+  breakpoints: {
+    0: {
+      slidesPerView: 1,
+    },
+    768: {
+      slidesPerView: 1,
+    },
+    1024: {
+      slidesPerView: 1,
+    }
+  }
+});
+
+   
+
+      });
     });
   </script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(() => {
-      document.querySelectorAll('.loader-wrapper').forEach(e => e.style.display = 'none');
-      document.querySelectorAll('.real-content').forEach(e => e.style.display = 'block');
-    }, 800);
-  });
-</script>
 </body>
 </html>

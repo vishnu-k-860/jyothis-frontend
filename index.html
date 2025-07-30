@@ -482,7 +482,18 @@ font-size: 25px;
       </div>
       <section class="new-courses" id="newCourses">
       <div class="container">
-      <div class="row" id="courseContainer">
+        <div class="loader-wrapper" id="courseLoader">
+  <div class="preloader-inner">
+    <span class="dot"></span>
+    <div class="dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+      <div class="row real-content" id="courseContainer" style="display: none;">
       <!-- Dynamic courses will be inserted here -->
        </div>
       </div>
@@ -551,8 +562,18 @@ font-size: 25px;
         </div>
 
         <div class="col-lg-6">
-          
-              <div class="owl-carousel owl-testimonials" id="latestBlogs">
+          <div class="loader-wrapper" id="blogLoader">
+  <div class="preloader-inner">
+    <span class="dot"></span>
+    <div class="dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+              <div class="owl-carousel owl-testimonials real-content" id="latestBlogs" style="display: none;">
               <!-- Blogs will be injected here -->
               
            </div> 
@@ -593,12 +614,10 @@ font-size: 25px;
     <a style="color: #7a6ad8;" href="tel:+91 9388968972">9388968972</a>
   </p>
   <p class="icon1 d-flex  gap-3" style="font-size: 25px; color: #7a6ad8;">
-    <a href="https://wa.me/917736000407" target="_blank" style="color: inherit;">
-    <i class="fa-brands fa-whatsapp"></i>
-    </a>
-    <i class="fa-brands fa-facebook"></i>
+    <a href="https://wa.me/917736000407" target="_blank" style="color: inherit;">  <i class="fa-brands fa-whatsapp"></i></a>
+     <a href="https://www.facebook.com/share/16wqyBGPkG/" style="color: inherit;"> <i class="fa-brands fa-facebook"></i></a>
     <i class="fa-brands fa-linkedin"></i>
-    <i class="fa-brands fa-instagram"></i>
+    <a href="https://www.instagram.com/jyothis_it_centre" style="color: inherit;"> <i class="fa-brands fa-instagram"></i></a>
   </p>
 </div>
 
@@ -725,6 +744,9 @@ font-size: 25px;
   fetch('https://jyothis-backend.onrender.com/api/blogs/all') // ✅ correct endpoint now
     .then(res => res.json())
     .then(blogs => {
+      document.getElementById("blogLoader").style.display = "none";
+      document.getElementById("latestBlogs").style.display = "block";
+
       const blogContainer = document.getElementById('latestBlogs');
       if (!blogContainer) return;
 
@@ -790,6 +812,9 @@ $(document).ready(function () {
     url: COURSE_API,
     method: 'GET',
     success: function (courses) {
+      $('#courseLoader').hide();
+      $('#courseContainer').show();
+
       let html = '';
       courses.forEach(course => {
         const imageUrl = 
@@ -858,19 +883,5 @@ $(document).ready(function () {
     window.location.href = `mailto:jyothisitdept@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
   });
 </script>
-
-
-  
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(() => {
-      document.querySelectorAll('.loader-wrapper').forEach(e => e.style.display = 'none');
-      document.querySelectorAll('.real-content').forEach(e => e.style.display = 'block');
-    }, 800);
-  });
-</script>
 </body>
 </html>
-
-
-<!-- responsive for logo,affiliations portion-->
