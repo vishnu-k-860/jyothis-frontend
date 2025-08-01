@@ -82,10 +82,7 @@
 #galleryList .swiper-button-prev {
   display: none !important;
 }
-
-
-    </style>
-  
+</style>  
 </head>
 <body>
 
@@ -171,7 +168,7 @@
       </div>
       <div class="mb-3">
         <h6><label class="form-label">Media File</label></h6>
-        <input type="file" class="form-control" name="media" accept="image/*,video/*" multiple required />
+        <input type="file" class="form-control" name="media" id="mediaInput" accept="image/*,video/*" multiple required />
       </div>
       <div class="main-button">
         <button type="submit" class="btn btn-outline-dark w-100"><h6>Upload</h6></button>
@@ -179,20 +176,18 @@
     </form>
   </div>
 </div>
-
-
 </div>
 
 
-      <div class="row" >
-         <!-- Course List -->
-        <h4>Available Courses</h4>
-        <ul id="courseList" class="list-group"></ul>
-      </div>
-      <!-- Gallery List -->
-      <div class="row mt-4">
-      <h4>Gallery Items</h4>
-      <ul id="galleryList" class="list-group"></ul>
+<div class="row" >
+<!-- Course List -->
+ <h4>Available Courses</h4>
+ <ul id="courseList" class="list-group"></ul>
+</div>
+<!-- Gallery List -->
+<div class="row mt-4">
+  <h4>Gallery Items</h4>
+  <ul id="galleryList" class="list-group"></ul>
 </div>
 
     </div>
@@ -226,7 +221,6 @@
 
   const formData = new FormData(this);
   const url = editingCourseId ? `${COURSE_API}/${editingCourseId}` : `${COURSE_API}/add`;
-
   const method = editingCourseId ? 'PUT' : 'POST';
 
   $.ajax({
@@ -242,12 +236,14 @@
       alert(editingCourseId ? "Course updated!" : "Course added!");
       $('#courseForm')[0].reset();
       editingCourseId = null;
-      $('button[type="submit"]').html('<h6>Add</h6>'); 
+      $('#courseForm button[type="submit"]').html('<h6>Add</h6>');
       loadCourses();
     },
     error: function (err) {
-      alert("Error: " + err.responseText);
-    }
+  alert("Error: " + (err.responseJSON?.error || err.responseText));
+  console.log("❌ Debug error:", err);
+}
+
   });
 });
 
@@ -312,12 +308,12 @@ function deleteCourse(id) {
     });
   }
 
-  function editCourse(id, title, description) {
-    editingCourseId = id;
-    $('[name="title"]').val(title);
-    $('[name="description"]').val(description);
-    $('button[type="submit"]').html('<h6>Update</h6>');
-  }
+ function editCourse(id, title, description) {
+  editingCourseId = id;
+  $('#courseForm [name="title"]').val(title);
+  $('#courseForm [name="description"]').val(description);
+  $('#courseForm button[type="submit"]').html('<h6>Update</h6>');
+}
 
   // Load courses on page load
   loadCourses();
@@ -534,6 +530,29 @@ $(document).on('click', '.album-admin-preview', function () {
   $('body').append(viewer);
 });
 </script>
+
+<script>
+  $('#galleryForm [name="type"]').on('change', function () {
+    const selectedType = $(this).val();
+    const mediaInput = $('#mediaInput');
+
+    if (selectedType === 'album') {
+      mediaInput.attr('multiple', true);
+      mediaInput.attr('accept', 'image/*');
+    } else if (selectedType === 'video') {
+      mediaInput.removeAttr('multiple');
+      mediaInput.attr('accept', 'video/*');
+    } else {
+      mediaInput.removeAttr('multiple');
+      mediaInput.attr('accept', 'image/*');
+    }
+
+    // Clear file input
+    mediaInput.val('');
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 </html>

@@ -84,7 +84,7 @@
               <select id="role" name="role" required onchange="toggleRoleIDField()">
                 <option value="">Select Role</option>
                 <option value="admin">Admin</option>
-                <option value="user">User</option>
+                <option value="user">Student</option>
               </select>
             </div>
             <div id="admin-id-field" style="display: none;" class="mb-3">
@@ -92,8 +92,8 @@
               <input type="text" class="form-control" id="adminId" name="adminId" placeholder="Enter Admin ID" required />
             </div>
             <div id="user-id-field" style="display: none;" class="mb-3">
-              <h6><label for="userId">User ID</label></h6>
-              <input type="text" class="form-control" id="userId" name="userId" placeholder="Enter User ID" required />
+              <h6><label for="userId">Student ID</label></h6>
+              <input type="text" class="form-control" id="userId" name="userId" placeholder="Enter User ID" />
             </div>
             <div class="main-button">
               <button type="submit" class="btn btn-outline-dark w-100"><h6>Register</h6></button>
@@ -111,17 +111,41 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Toggle Role ID Field -->
+<!-- Toggle Role ID Field -->
 <script>
   function toggleRoleIDField() {
     const role = document.getElementById('role').value;
-    document.getElementById('admin-id-field').style.display = (role === 'admin') ? 'block' : 'none';
-    document.getElementById('user-id-field').style.display = (role === 'user') ? 'block' : 'none';
+    const adminField = document.getElementById('admin-id-field');
+    const userField = document.getElementById('user-id-field');
+    const adminInput = document.getElementById('adminId');
+    const userInput = document.getElementById('userId');
+
+    if (role === 'admin') {
+      adminField.style.display = 'block';
+      userField.style.display = 'none';
+      adminInput.setAttribute('required', 'required');
+      userInput.removeAttribute('required');
+    } else if (role === 'user') {
+      userField.style.display = 'block';
+      adminField.style.display = 'none';
+      userInput.setAttribute('required', 'required');
+      adminInput.removeAttribute('required');
+    } else {
+      adminField.style.display = 'none';
+      userField.style.display = 'none';
+      adminInput.removeAttribute('required');
+      userInput.removeAttribute('required');
+    }
   }
+
+  // Run once on page load to sync visibility
+  window.addEventListener('DOMContentLoaded', toggleRoleIDField);
 </script>
+
 
 <!-- Register Logic -->
 <script>
-  const ADMIN_SECRET_ID = "JYOTHISADMIN123";
+  const ADMIN_SECRET_ID = "JYOTHISADMIN369";
   const USER_SECRET_ID = "JYOTHISUSER123";
 
   $('#registerForm').submit(function (e) {
@@ -143,14 +167,25 @@
       return;
     }
 
-    if (role === 'user' && userId !== USER_SECRET_ID) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Invalid User ID',
-        text: 'Please enter the correct user registration code.'
-      });
-      return;
-    }
+    if (role === 'user') {
+  if (!userId) {
+    Swal.fire({
+      icon: 'error',
+      title: 'User ID Required',
+      text: 'Please enter the User ID to continue.'
+    });
+    return;
+  }
+  if (userId !== USER_SECRET_ID) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Invalid User ID',
+      text: 'Please enter the correct user registration code.'
+    });
+    return;
+  }
+}
+
 
     $.ajax({
       url: "https://jyothis-backend.onrender.com/api/auth/register",
@@ -198,6 +233,7 @@
 <script src="assets/js/owl-carousel.js"></script>
 <script src="assets/js/counter.js"></script>
 <script src="assets/js/custom.js"></script>
+
 
 </body>
 </html>
