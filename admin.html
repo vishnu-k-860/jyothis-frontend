@@ -134,8 +134,9 @@
                 <textarea class="form-control" name="description" rows="3" required></textarea>
               </div>
               <div class="mb-3">
-              <h6><label class="form-label">Course Image</label></h6>
-              <input type="file" class="form-control" name="image" accept="image/*" />
+                <h6><label class="form-label">Course Image</label></h6>
+                <input type="file" class="form-control" name="image" accept="image/*" />
+                <img id="courseImagePreview" src="" alt="Preview" class="mt-2 rounded" style="max-height: 150px; width: 100px; display: none;" />
               </div>
 
               <div class="main-button">
@@ -232,17 +233,37 @@
     },
     contentType: false,
     processData: false,
+
     success: function () {
-      alert(editingCourseId ? "Course updated!" : "Course added!");
-      $('#courseForm')[0].reset();
-      editingCourseId = null;
-      $('#courseForm button[type="submit"]').html('<h6>Add</h6>');
-      loadCourses();
-    },
-    error: function (err) {
-  alert("Error: " + (err.responseJSON?.error || err.responseText));
-  console.log("❌ Debug error:", err);
+  Swal.fire({
+    icon: 'success',
+    title: editingCourseId ? 'Course updated!' : 'Course added!',
+    timer: 1500,
+    showConfirmButton: false
+  });
+  $('#courseForm')[0].reset();
+  $('#courseImagePreview').hide();
+  editingCourseId = null;
+  $('#courseForm button[type="submit"]').html('<h6>Add</h6>');
+  loadCourses();
+},
+
+ error: function (err) {
+  if (err.status === 401 || err.status === 403) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Session Expired',
+      text: 'Please log in again.'
+    }).then(() => logout());
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: err.responseJSON?.error || err.responseText
+    });
+  }
 }
+
 
   });
 });
@@ -292,28 +313,73 @@ function loadCourses() {
 
 
 function deleteCourse(id) {
-    $.ajax({
-      url: COURSE_API + '/' + id,
-      method: 'DELETE',
-      headers: {
-        'Authorization': 'Bearer ' + token
-      },
-      success: function () {
-        alert("Course deleted.");
-        loadCourses();
-      },
-      error: function () {
-        alert("Could not delete course.");
-      }
-    });
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'This will delete the course permanently.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: COURSE_API + '/' + id,
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        success: function () {
+          Swal.fire('Deleted!', 'Course has been deleted.', 'success');
+          loadCourses();
+        },
+        error: function (err) {
+  if (err.status === 401 || err.status === 403) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Session Expired',
+      text: 'Please log in again.'
+    }).then(() => logout());
+  } else {
+    Swal.fire('Error!', 'Could not delete course.', 'error');
   }
+}
+
+      });
+    }
+  });
+}
+
 
  function editCourse(id, title, description) {
   editingCourseId = id;
   $('#courseForm [name="title"]').val(title);
   $('#courseForm [name="description"]').val(description);
   $('#courseForm button[type="submit"]').html('<h6>Update</h6>');
+
+  // Get the course data to fetch its image
+  $.ajax({
+    url: COURSE_API + '/' + id,
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + token
+    },
+    success: function (course) {
+      const imageUrl = course.image && course.image.includes('cloudinary.com')
+        ? course.image
+        : course.image
+        ? `https://jyothis-backend.onrender.com/uploads/${course.image}`
+        : '';
+
+      if (imageUrl) {
+        $('#courseImagePreview').attr('src', imageUrl).show();
+      } else {
+        $('#courseImagePreview').hide();
+      }
+    }
+  });
 }
+
 
   // Load courses on page load
   loadCourses();
@@ -322,6 +388,15 @@ const GALLERY_API = 'https://jyothis-backend.onrender.com/api/gallery';
 
 $('#galleryForm').submit(function (e) {
   e.preventDefault();
+
+  Swal.fire({
+  title: 'Uploading...',
+  allowOutsideClick: false,
+  didOpen: () => {
+    Swal.showLoading();
+  }
+});
+
 
   const formData = new FormData();
   const title = $('#galleryForm [name="title"]').val();
@@ -351,14 +426,36 @@ $('#galleryForm').submit(function (e) {
     contentType: false,
     processData: false,
     success: function () {
-      alert("Media uploaded to gallery!"); 
-      $('#galleryForm')[0].reset();
-      loadGallery();
-    },
-    error: function (err) {
-      alert("Gallery upload failed: " + err.responseText);
-      console.log("Upload debug:", err);
-    }
+  Swal.close(); // ✅ Close loading
+  Swal.fire({
+    icon: 'success',
+    title: 'Uploaded!',
+    text: 'Media uploaded to gallery.',
+    timer: 1500,
+    showConfirmButton: false
+  });
+
+  $('#galleryForm')[0].reset();
+  loadGallery();
+},
+
+ error: function (err) {
+  Swal.close(); // ✅ Close loading
+  if (err.status === 401 || err.status === 403) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Session Expired',
+      text: 'Please log in again.'
+    }).then(() => logout());
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Upload Failed',
+      text: err.responseJSON?.error || err.responseText
+    });
+    console.log("Upload debug:", err);
+  }
+}
   });
 });
 
@@ -440,28 +537,36 @@ function loadGallery() {
 
 
 function deleteGallery(id) {
-  if (!confirm("Are you sure you want to delete this item?")) return;
-
-  const token = localStorage.getItem("token");
-
-fetch(`${GALLERY_API}/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "This gallery item will be deleted permanently.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`${GALLERY_API}/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+        .then(res => {
+          if (!res.ok) throw new Error("Failed to delete");
+          return res.json();
+        })
+        .then(() => {
+          Swal.fire('Deleted!', 'Gallery item has been removed.', 'success');
+          loadGallery();
+        })
+        .catch(err => {
+          Swal.fire('Error!', 'Unable to delete item.', 'error');
+          console.error(err);
+        });
     }
-  })
-    .then(res => {
-      if (!res.ok) throw new Error("Failed to delete");
-      return res.json();
-    })
-    .then(() => {
-      alert("Deleted successfully");
-      loadGallery(); // Refresh gallery list
-    })
-    .catch(err => {
-      alert("Error deleting item");
-      console.error(err);
-    });
+  });
 }
 
 
@@ -553,6 +658,33 @@ $(document).on('click', '.album-admin-preview', function () {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+// ⏱ Auto logout after inactivity
+let logoutTimer;
+
+function resetLogoutTimer() {
+  clearTimeout(logoutTimer);
+  logoutTimer = setTimeout(() => {
+    Swal.fire({
+      icon: 'info',
+      title: 'Session expired',
+      text: 'You were logged out due to inactivity.',
+      timer: 3000,
+      showConfirmButton: false
+    }).then(() => {
+      logout(); // 🔒 Your existing logout function
+    });
+  }, 5 * 60 * 1000); // 15 minutes (in milliseconds)
+}
+
+// 👂 Detect any activity
+$(document).on('mousemove keydown click scroll', resetLogoutTimer);
+
+// 🔁 Start/reset timer on page load
+resetLogoutTimer();
+</script>
+
 
 </body>
 </html>

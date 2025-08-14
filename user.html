@@ -174,26 +174,46 @@
     const url = editingBlogId ? `${BLOG_API}/${editingBlogId}` : `${BLOG_API}/add`;
     const method = editingBlogId ? 'PUT' : 'POST';
 
-    $.ajax({
-      url,
-      method,
-      headers: { 'Authorization': 'Bearer ' + token },
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function () {
-        alert(editingBlogId ? "Blog updated!" : "Blog published!");
-        $('#blogForm')[0].reset();
-        quill.setText('');
-        $('#submitBtn').html('<h6>Publish</h6>');
-        $('#photoPreview').hide();
-        editingBlogId = null;
-        loadBlogs();
-      },
-      error: function (err) {
-        alert("Error: " + err.responseText);
-      }
+    // ✅ Show loading popup
+Swal.fire({
+  title: 'Uploading Blog...',
+  allowOutsideClick: false,
+  didOpen: () => {
+    Swal.showLoading();
+  }
+});
+
+$.ajax({
+  url,
+  method,
+  headers: { 'Authorization': 'Bearer ' + token },
+  data: formData,
+  processData: false,
+  contentType: false,
+  success: function () {
+    Swal.fire({
+      icon: 'success',
+      title: editingBlogId ? "Blog updated!" : "Blog published!",
+      timer: 1500,
+      showConfirmButton: false
     });
+
+    $('#blogForm')[0].reset();
+    quill.setText('');
+    $('#submitBtn').html('<h6>Publish</h6>');
+    $('#photoPreview').hide();
+    editingBlogId = null;
+    loadBlogs();
+  },
+  error: function (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Upload Failed!',
+      text: err.responseJSON?.error || 'Something went wrong.'
+    });
+  }
+});
+
   });
 
   $('[name="photo"]').on('change', function () {
@@ -261,19 +281,42 @@
   }
 
   function deleteBlog(id) {
-    $.ajax({
-      url: BLOG_API + '/' + id,
-      method: 'DELETE',
-      headers: { 'Authorization': 'Bearer ' + token },
-      success: function () {
-        alert("Blog deleted.");
-        loadBlogs();
-      },
-      error: function () {
-        alert("Could not delete blog.");
-      }
-    });
-  }
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to undo this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: BLOG_API + '/' + id,
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + token },
+        success: function () {
+          Swal.fire({
+            icon: 'success',
+            title: 'Deleted!',
+            text: 'Your blog has been deleted.',
+            timer: 1500,
+            showConfirmButton: false
+          });
+          loadBlogs();
+        },
+        error: function () {
+          Swal.fire({
+            icon: 'error',
+            title: 'Failed!',
+            text: 'Could not delete blog.'
+          });
+        }
+      });
+    }
+  });
+}
+
 
   $(document).ready(() => loadBlogs());
 <!-- Debug: Check blog photo values -->
@@ -320,5 +363,6 @@
 
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
